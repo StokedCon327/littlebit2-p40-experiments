@@ -1,0 +1,3 @@
+run,model,converted_layers,trainable_parameters,training_steps,loss_step_1,loss_step_2,packed_tensor_keys,packed_torch_checkpoint_bytes,inference_reload_verified,torch_cuda_reserved_mib_observed
+tiny-opt-itq-smoke,hf-internal-testing/tiny-random-OPTForCausalLM,30,7580,2,0.11212846636772156,0.11112263053655624,60,3353150,False,102
+opt125m-itq-smoke,facebook/opt-125m,72,43929600,2,103.08045959472656,66.01411437988281,144,167764818,True,1666
