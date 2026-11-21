@@ -1,0 +1,18 @@
+# Private data and model artifacts must not be committed
+*.pt
+*.pth
+*.bin
+*.safetensors
+*.gguf
+*.ckpt
+.env
+.env.*
+*.pem
+*.key
+*credentials*
+*token*
+hf-cache/
+venv/
+outputs/
+logs/
+__pycache__/
