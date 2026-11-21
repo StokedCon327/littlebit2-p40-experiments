@@ -1,0 +1,85 @@
+{
+  "project": "LittleBit-2 Pascal/P40 experimental smoke tests",
+  "tested_on": "2026-11-21",
+  "research_code_reference": {
+    "repository": "https://github.com/SamsungLabs/LittleBit",
+    "tested_commit": "42d658b",
+    "upstream_license": "CC BY-NC 4.0"
+  },
+  "environment": {
+    "gpu": "NVIDIA Tesla P40",
+    "compute_capability": "6.1",
+    "driver": "580.178.04",
+    "python": "3.10.12",
+    "pytorch": "2.6.0+cu124",
+    "cuda_runtime": "12.4",
+    "transformers": "4.51.3",
+    "datasets": "3.4.1",
+    "gpu_job_memory_fraction_cap": 0.22
+  },
+  "training_method": {
+    "method": "isolated PyTorch quantization-aware training smoke test",
+    "framework": "LittleBit-2 Joint-ITQ",
+    "quant_func": "SmoothSign",
+    "target_bits_per_weight": 0.55,
+    "itq_iterations": 2,
+    "dataset": "4 fixed, generic synthetic sentences; not a representative language dataset",
+    "steps": 2,
+    "teacher_model": "same pretrained model as the student before compression",
+    "optimizer": "AdamW",
+    "learning_rate": 0.00002,
+    "bf16": false,
+    "deepspeed": false,
+    "checkpoint_verification": "Packed tensors saved, read back with weights_only=True; OPT model separately reloaded from packed weights and produced finite logits."
+  },
+  "runs": [
+    {
+      "run": "tiny-opt-itq-smoke",
+      "model": "hf-internal-testing/tiny-random-OPTForCausalLM",
+      "status": "QAT_SMOKE_PASS",
+      "converted_layers": 30,
+      "trainable_parameters": 7580,
+      "training_steps": 2,
+      "loss_step_1": 0.11212846636772156,
+      "loss_step_2": 0.11112263053655624,
+      "packed_tensor_keys": 60,
+      "packed_torch_checkpoint_bytes": 3353150,
+      "inference_reload_verified": false,
+      "torch_cuda_reserved_mib_observed": 102
+    },
+    {
+      "run": "opt125m-itq-smoke",
+      "model": "facebook/opt-125m",
+      "status": "QAT_SMOKE_PASS",
+      "converted_layers": 72,
+      "trainable_parameters": 43929600,
+      "training_steps": 2,
+      "loss_step_1": 103.08045959472656,
+      "loss_step_2": 66.01411437988281,
+      "packed_tensor_keys": 144,
+      "packed_torch_checkpoint_bytes": 167764818,
+      "inference_reload_verified": true,
+      "inference_logits_dimension": 50272,
+      "torch_cuda_reserved_mib_observed": 1666
+    }
+  ],
+  "inference_verification": {
+    "model": "facebook/opt-125m",
+    "packed_reloaded": true,
+    "converted_layers_restored": 72,
+    "missing_state_dict_keys": 0,
+    "unexpected_state_dict_keys": 0,
+    "finite_next_token_logits": true,
+    "vocabulary_size": 50272,
+    "status": "INFERENCE_RELOAD_PASS"
+  },
+  "limitations": [
+    "Only two training steps on a tiny synthetic sample; not evidence of usefulness, accuracy, or generalization.",
+    "The 0.55 BPW value is a target for converted linear layers, NOT a measured whole-model bits-per-weight or achieved total compression ratio.",
+    "Checkpoint file sizes include uncompressed portions and framework metadata; not a measure of full-model compressed runtime memory.",
+    "The vendor training entry point assumes BF16 and DeepSpeed; this experiment used a separate FP32 training runner due to Pascal GPU restrictions.",
+    "The stock inference loader failed during meta-device model construction. CPU-first loading and GPU inference of packed weights passed.",
+    "This package excludes model checkpoints and original Samsung source code.",
+    "No Strata, Ollama, or other production inference integration was performed."
+  ]
+}
