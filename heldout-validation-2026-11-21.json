@@ -1,0 +1,59 @@
+{
+  "project": "LittleBit-2 P40 OPT-125M held-out validation engineering comparison",
+  "status": "EVALUATION_COMPLETED_MODEL_QUALITY_POOR",
+  "run_date_local": "2026-11-21",
+  "protocol": {
+    "upstream_repository": "https://github.com/SamsungLabs/LittleBit",
+    "upstream_commit": "42d658b0c79f76450b34b6a3547462c7cdc3e1a0",
+    "upstream_license": "CC BY-NC 4.0",
+    "gpu": "NVIDIA Tesla P40",
+    "compute_capability": "6.1",
+    "torch": "2.6.0+cu124",
+    "transformers": "4.51.3",
+    "dataset": "Salesforce/wikitext",
+    "dataset_config": "wikitext-2-raw-v1",
+    "evaluation_split": "validation",
+    "untouched_split": "test",
+    "scoring": "equal 128-token non-overlapping independent blocks; not standard sliding-window perplexity",
+    "number_of_scored_tokens_each_model": 4064,
+    "evaluated_models": [
+      "facebook/opt-125m original pretrained",
+      "LittleBit-2 Joint-ITQ OPT-125M checkpoint trained for exactly 2 optimizer steps on synthetic text"
+    ],
+    "quantized_checkpoint": {
+      "QAT_steps": 2,
+      "target_bits_per_weight_of_converted_linear_layers": 0.55,
+      "initialization": "Joint-ITQ",
+      "quantizer": "SmoothSign",
+      "itq_iterations": 2,
+      "residual": false
+    },
+    "gpu_job_memory_fraction_cap": 0.22,
+    "runs": 2
+  },
+  "results": {
+    "original_OPT125M": {
+      "block_perplexity": 67.11796271858381,
+      "scored_tokens": 4064,
+      "first_run_peak_allocated_cuda_mib": 580
+    },
+    "littlebit2_two_step_smoke_checkpoint": {
+      "block_perplexity": 17325.739726620566,
+      "scored_tokens": 4064,
+      "first_run_peak_allocated_cuda_mib": 422
+    },
+    "repeated_runs_agreed_on_perplexity": true,
+    "trained_on_WikiText2_for_this_comparison": false,
+    "model_quality_acceptable": false
+  },
+  "interpretation": "The existing two-step synthetic quantization-aware training smoke checkpoint produced finite outputs but dramatically poorer held-out predictive quality than the original. This is not evidence of quality or effective compression after a proper training run.",
+  "caveats": [
+    "Two synthetic training steps do not produce a converged model.",
+    "These are 128-token block scores, not standard published WikiText-2 sliding-window perplexity.",
+    "Peak allocated CUDA memory is not full-model effective bits per weight or serving footprint.",
+    "No native Strata/Ollama serving integration is demonstrated.",
+    "The separate WikiText-2 test split was not accessed in this evaluation.",
+    "The results are independent engineering measurements, not Samsung vendor benchmarks.",
+    "No model weights, private network details, raw household prompts or vendor source are shared."
+  ]
+}
