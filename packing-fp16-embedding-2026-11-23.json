@@ -1,0 +1,30 @@
+{
+  "experiment": "FP16 tied-embedding packed-checkpoint storage experiment",
+  "source": "Thing2 local OPT-125M LittleBit-2 exploratory checkpoint",
+  "report_timestamp_utc": "2026-11-23T03:41:30.362518+00:00",
+  "status": "PACKAGING_AND_CPU_LOGIT_PARITY_PASS",
+  "original_checkpoint_mib": 159.99299812316895,
+  "original_safetensors_mib": 307.0966339111328,
+  "original_fp16_theoretical_mib": 238.875,
+  "optimized_fp16_embedding_checkpoint_mib": 86.3523120880127,
+  "optimized_to_original_checkpoint_ratio": 0.5397255698748471,
+  "optimized_vs_theoretical_original_fp16_ratio": 0.36149581198540115,
+  "tied_embedding_shape": [
+    50272,
+    768
+  ],
+  "tied_storage_verified": true,
+  "fp16_embedding_max_absolute_error": 0,
+  "fp16_embedding_mean_absolute_error": 0,
+  "unchanged_tensor_count": 915,
+  "reloaded_same_state_dict_keyset": true,
+  "cpu_loader_logits_parity": "EXACT_LOGITS_MATCH",
+  "cpu_max_absolute_logit_difference": 0,
+  "output_checkpoint_sha256": "8fea2ea5b89303466ed9ec1decbe4448eb520ea2778085e6dc72d694c05d1115",
+  "limitations": [
+    "The original checkpoint contains duplicated or nonoptimal storage structures. This is a serialization and tied-embedding packaging test, not a change in network parameter count or a new quantization-aware training run.",
+    "CPU loader logit parity was validated for this storage variant, but GPU performance, useful model quality and native Strata/Ollama serving were not validated.",
+    "The model still has the same 125M nominal parameters. Disk size is not equivalent to realized bits-per-weight or runtime memory.",
+    "Optimized model weights/checkpoint are deliberately not distributed in this repository."
+  ]
+}
