@@ -13,6 +13,19 @@ This independent research dataset records experiments using [Samsung Research Li
 
 The 0.55 bits-per-weight **target applies to converted linear layers**, not to the entire model. The checkpoints include other, less-compressed tensors, and file sizes are not total model-size reduction ratios. A declining loss over two toy batches is not evidence that the resulting model is useful.
 
+## Held-out comparison: first actual language-quality check
+
+On November 21, 2026, two independent GPU evaluations compared the unmodified **OPT-125M** with the existing **two-step synthetic LittleBit-2 checkpoint** on exactly the same 4,064 **WikiText-2 validation tokens** (128-token independent blocks).
+
+| Model | Block-based perplexity (lower is better) |
+| --- | ---: |
+| Original OPT-125M | **67.12** |
+| Two-step LittleBit-2 smoke checkpoint | **17,325.74** |
+
+The second run reproduced the perplexity values exactly. The quantized checkpoint's held-out quality is **severely degraded**, which is unsurprising after only two synthetic optimizer steps. These are *not standard published WikiText-2 sliding-window perplexities*, and **do not measure LittleBit-2's potential after proper training**. The WikiText-2 test split remains untouched. No new public-corpus QAT training or model serving integration was performed.
+
+See [heldout-validation-2026-11-21.json](heldout-validation-2026-11-21.json) for the structured method, measurements and caveats. This file contains independently measured numbers only, no vendor code, checkpoint weights or private system information.
+
 ## Hardware and software
 
 - NVIDIA Tesla P40 (Pascal, compute capability 6.1), NVIDIA driver 580.178.04.
@@ -24,6 +37,7 @@ The 0.55 bits-per-weight **target applies to converted linear layers**, not to t
 ## What's in this repository
 
 - `results.json`: Structured experimental environment, methods, measurements and caveats.
+- `heldout-validation-2026-11-21.json`: First repeatable public-text validation comparison of the original OPT-125M and the two-step smoke checkpoint.
 - `results.csv`: Compact tabular results for analysis.
 - `METHODS.md`: Experiment procedure and verification steps.
 - `LICENSE-NOTES.md`: Attribution and redistribution/usage limitations.
@@ -33,7 +47,7 @@ The 0.55 bits-per-weight **target applies to converted linear layers**, not to t
 - The official LittleBit quantization components can be imported and exercised with CUDA/PyTorch on Pascal architecture in an isolated environment.
 - Two forward/backward/optimizer steps completed for each model; packed tensors were serialized and read back.
 - A separately exported OPT-125M packed checkpoint was reloaded using a CPU-first workaround; its output logits were finite and had vocabulary dimension 50,272.
-- Native model serving via Strata/Ollama, end-to-end model quality, generalization, compression ratios, sustained training, and throughput **remain unverified**.
+- Native model serving via Strata/Ollama, generalization after proper QAT, effective whole-model compression, and sustained performance **remain unverified**. The two-step smoke checkpoint's first measured held-out quality is very poor.
 
 ## Source and scope
 
