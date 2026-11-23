@@ -27,3 +27,16 @@ The user-facing training loss values are from different models and are not cross
 - Compatibility: independent serving adapter, API integration and native backend support.
 
 **Do not treat these snapshots as a trained assistant or publish compression claims based on their checkpoint sizes.**
+## Released reproduction tools (2026-11-23)
+
+The independent Pascal-compatible training and inference-verification scripts now appear under [scripts/](scripts/). The training script was copied from the executed, successful Thing2 experiment, and both staged scripts passed Python syntax checks and `--help` import checks. They have **not** been rerun end-to-end from a fresh public clone; that remains an independent reproduction milestone. The inference script accepts a checkpoint directory instead of the prior host-specific absolute path. See [REPRODUCE.md](REPRODUCE.md).
+
+## Subsequent engineering measurements (not model-quality milestones)
+
+A storage-only optimization of the existing OPT-125M packed checkpoint reduced the recorded file size from 159.993 MiB to 86.352 MiB, a ratio of 0.53973. The packaging change used FP16 embedding storage and tied weights. The recorded CPU loader test produced exactly matching logits (max absolute difference 0). The experiment did **not** increase model parameters or establish faster model execution; see [packing-fp16-embedding-2026-11-23.json](packing-fp16-embedding-2026-11-23.json).
+
+On November 23, a CPU-only re-execution of the actual LittleBit latent-factor QAT resume test succeeded: after a one-step synthetic optimizer snapshot, restored logits matched the prior model exactly (max absolute difference 0), and optimizer state counts matched. The existing resume-test implementation is currently tied to a local research workspace and is **not yet included** among the portable public scripts. The 32-step WikiText-2 public QAT pilot is staged locally but not verified as completed.
+
+## Quality evaluation already published
+
+The independent 4,064-token WikiText-2 validation block-based perplexity evaluation (two repeat runs) reported **67.12** for original OPT-125M and **17,325.74** for the two-step LittleBit checkpoint. These are non-overlapping 128-token blocks, not conventional sliding-window test perplexity. The result demonstrates catastrophic quality degradation of the minimally trained checkpoint and should prevent misinterpreting the earlier training or storage successes as a deployable model. See [heldout-validation-2026-11-21.json](heldout-validation-2026-11-21.json).
