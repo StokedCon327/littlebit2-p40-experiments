@@ -1,0 +1,21 @@
+experiment,engine,model,mode,generated_tokens,request_s,prompt_tps,decode_tps,output_tps_including_prefill,peak_gpu_mib,correct,note
+qwen_short_llama,llama.cpp,Qwen3-Coder-30B-A3B-Q4_K_M,fully_resident,128,,1184.35,62.8289,,18115,,three repeats
+qwen_short_inferssd,InferSSD,Qwen3-Coder-30B-A3B-Q4_K_M,fully_resident,128,,1001.7246,69.52948,,18061,,three repeats
+qwen_long_llama,llama.cpp,Qwen3-Coder-30B-A3B-Q4_K_M,fully_resident,256,,837.379,64.2718,,18459,,three repeats
+qwen_long_inferssd,InferSSD,Qwen3-Coder-30B-A3B-Q4_K_M,fully_resident,256,,737.5878,68.9313,,18601,,three repeats
+qwen_long_ik,ik_llama.cpp,Qwen3-Coder-30B-A3B-Q4_K_M,fully_resident,256,,785.286867,66.708879,,18455,,three repeats
+qwen_bigm_resident,BigMoeOnEdge,Qwen3-Coder-30B-A3B-Q4_K_M,fully_resident,256,,,63.192,,18011,,different output lengths
+qwen_bigm_stream,BigMoeOnEdge,Qwen3-Coder-30B-A3B-Q4_K_M,ssd_streaming,64,,,12.839,,9589,,different output lengths
+qwen_rpc_loopback,InferSSD,Qwen3-Coder-30B-A3B-Q4_K_M,loopback_rpc,128,,179.04,58.400448,,18393,,single card
+qwen_rpc_twohost,InferSSD,Qwen3-Coder-30B-A3B-Q4_K_M,two_host_rpc,128,5.560087,23.074602,28.872352,,9659,,remote peak 9217 MiB
+dsv41_original,Colibri,DeepSeek-V4.1-UD-IQ1_S,less_developed_history,14,65.591,,,0.213,23289,true,17011.2 MB SSD reads
+dsv41_cache_a,Colibri,DeepSeek-V4.1-UD-IQ1_S,8.5GiB_host,14,20.760,,,0.674,23289,true,3601.7 MB SSD reads
+dsv41_cache_b,Colibri,DeepSeek-V4.1-UD-IQ1_S,12GiB_host,14,14.924,,,0.938,23297,true,836.2 MB SSD reads
+dsv41_standalone,InferSSD,DeepSeek-V4.1-UD-IQ1_S,ssd_gpu_tier,15,60.697986,0.644028,0.600355,0.247125,23347,true,standalone
+dsv41_square_first,InferSSD,DeepSeek-V4.1-UD-IQ1_S,persistent,15,93.431059,,0.292416,0.160546,,true,session peak 24411 MiB
+dsv41_alias,InferSSD,DeepSeek-V4.1-UD-IQ1_S,persistent,2,53.247766,,0.796628,0.037560,,false,expected 44 actual 50
+dsv41_sql,InferSSD,DeepSeek-V4.1-UD-IQ1_S,persistent,6,44.249731,,1.177404,0.135594,,true,correct
+dsv41_graph,InferSSD,DeepSeek-V4.1-UD-IQ1_S,persistent,2,46.318376,,3.265653,0.043179,,false,expected 9 actual 7
+dsv41_closure,InferSSD,DeepSeek-V4.1-UD-IQ1_S,persistent,10,51.402422,,0.679670,0.194543,,false,expected 2 2 2 actual 0 1 2
+dsv41_square_repeat,InferSSD,DeepSeek-V4.1-UD-IQ1_S,persistent,15,26.339927,,3.808207,0.569478,,true,zero prompt-cache reuse
+dsv41_session_total,InferSSD,DeepSeek-V4.1-UD-IQ1_S,persistent_aggregate,50,314.989281,,0.639651,0.158736,24411,,3/6 correct
