@@ -92,3 +92,7 @@ The example assumes the research repository is a sibling of the Samsung checkout
 Samsung Research / SamsungLabs: https://github.com/SamsungLabs/LittleBit. This independent benchmark report is **not an official Samsung benchmark**, and results are from the stated setup only. No private hostnames, IP addresses, credentials, prompts from household members, or trained weight files are included.
 
 For an honest comparison, the next phase should train on a specified public corpus, evaluate an untouched base model and its quantized counterpart on held-out text, measure achieved effective bits/weight with a consistent definition, and report batch size, tokens/s, peak VRAM and repeated-run variance.
+
+## Companion study: legacy GPU inference (November 24–25, 2026)
+
+See [Legacy GPU inference research](research/legacy-gpu-inference/README.md) for independent Pascal experiments with Colibri, InferSSD, llama.cpp and other engines, including a 233 GB DeepSeek checkpoint on one P40, matched Qwen performance benchmarks, persistent-cache accuracy failures and a practical coding-performance roadmap. These results did **not** use LittleBit-2-trained weights and do not establish LittleBit-2 inference acceleration.
