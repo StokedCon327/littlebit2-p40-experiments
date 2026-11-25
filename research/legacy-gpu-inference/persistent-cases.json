@@ -1,0 +1,32 @@
+[
+  {
+    "id": "square_first",
+    "prompt": "Write a Python function named square that returns the square of its argument. Output only Python code.",
+    "expected": "def square(x):\n    return x * x"
+  },
+  {
+    "id": "python_alias",
+    "prompt": "What exact integer does Python print? a=[1,2,3]; b=a; a=a+[4]; b.append(5); print(len(a)*10+len(b)) Reply with only the exact answer, no explanation.",
+    "expected": "44"
+  },
+  {
+    "id": "sql_count",
+    "prompt": "SQL t has x=1,NULL,1,2. SELECT COUNT(x), COUNT(DISTINCT x), COUNT(*) FROM t returns what? Reply comma-separated integers. Reply with only the exact answer, no explanation.",
+    "expected": "3,2,4"
+  },
+  {
+    "id": "graph",
+    "prompt": "With nonnegative weighted edges A->B=3, A->C=8, B->C=2, C->D=4, B->D=9, what is shortest path cost A to D? Reply with only the exact answer, no explanation.",
+    "expected": "9"
+  },
+  {
+    "id": "python_closure",
+    "prompt": "What exact list does Python print? f=[lambda: i for i in range(3)]; print([g() for g in f]) Reply with only the exact answer, no explanation.",
+    "expected": "[2, 2, 2]"
+  },
+  {
+    "id": "square_repeat",
+    "prompt": "Write a Python function named square that returns the square of its argument. Output only Python code.",
+    "expected": "def square(x):\n    return x * x"
+  }
+]
